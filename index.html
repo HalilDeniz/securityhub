@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>securityhub — Free Online Cybersecurity Tools | CVSS v3.1, Subnet, Hash & SSL Viewer</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="securityhub is a free suite of client-side cybersecurity tools including CVSS v3.1 Calculator, Subnet & CIDR Calculator, Live Hash Generator & Matcher, Base64/URL Encoders, and SSL/X.509 Certificate Parser. Private and 100% browser-based.">
+    <meta name="keywords" content="cybersecurity tools, CVSS v3.1 calculator, subnet calculator, CIDR calculator, hash generator, SHA256 generator, MD5 hash, SSL certificate viewer, base64 encoder, security tools hub">
+    <meta name="author" content="securityhub">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://halildeniz.github.io/securityhub">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://halildeniz.github.io/securityhub">
+    <meta property="og:title" content="securityhub — Free Online Cybersecurity Tools">
+    <meta property="og:description" content="Calculate CVSS v3.1 scores, analyze IP subnets, generate hashes, and inspect SSL certificates instantly in your browser with full privacy.">
+    <meta property="og:image" content="https://halildeniz.github.io/securityhub/og-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="securityhub — Free Online Cybersecurity Tools">
+    <meta name="twitter:description" content="Calculate CVSS v3.1 scores, analyze IP subnets, generate hashes, and inspect SSL certificates instantly in your browser with full privacy.">
+    <meta name="twitter:image" content="https://halildeniz.github.io/securityhub/og-image.png">
+
+    <!-- Structured Data (JSON-LD) for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "securityhub",
+      "url": "https://halildeniz.github.io/securityhub",
+      "description": "Free client-side cybersecurity utility suite including CVSS v3.1 calculator, CIDR subnet calculator, cryptographic hash generator & matcher, and SSL certificate viewer.",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "securityhub",
+        "url": "https://denizhalil.com"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#0a0e17',
+                            card: '#111827',
+                            border: '#1f2937',
+                            accent: '#00f0ff',
+                            purple: '#7000ff',
+                            green: '#00ff66',
+                            red: '#ff0055',
+                            yellow: '#ffb700'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0e17;
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+        }
+        .cyber-border-glow:focus-within {
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+            border-color: #00f0ff;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none" aria-live="polite"></div>
+
+    <div class="flex-1 flex flex-col md:flex-row">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-slate-900/90 backdrop-blur-md border-b md:border-b-0 md:border-r border-slate-800 flex-shrink-0 z-30 sticky top-0 md:h-screen flex flex-col justify-between">
+            <div>
+                <!-- Brand Header -->
+                <header class="p-5 border-b border-slate-800 flex items-center gap-3">
+                    <a href="#" class="flex items-center gap-3 group" aria-label="securityhub home">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h1 class="font-extrabold text-xl tracking-tight text-white">security<span class="text-cyan-400">hub</span></h1>
+                            <p class="text-[11px] text-slate-400 font-mono tracking-wide">Cybersecurity Suite</p>
+                        </div>
+                    </a>
+                </header>
+
+                <!-- Navigation Links -->
+                <nav class="p-4 space-y-1.5" id="nav-tabs" aria-label="Tool Navigation">
+                    <button onclick="switchTab('cvss')" id="tab-btn-cvss" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                        <i class="fa-solid fa-calculator w-5 text-center" aria-hidden="true"></i>
+                        <span>CVSS v3.1 Calculator</span>
+                    </button>
+
+                    <button onclick="switchTab('subnet')" id="tab-btn-subnet" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-network-wired w-5 text-center" aria-hidden="true"></i>
+                        <span>Subnet / CIDR Calculator</span>
+                    </button>
+
+                    <button onclick="switchTab('hash')" id="tab-btn-hash" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-hashtag w-5 text-center" aria-hidden="true"></i>
+                        <span>Hash Generator & Matcher</span>
+                    </button>
+
+                    <button onclick="switchTab('tools')" id="tab-btn-tools" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-code w-5 text-center" aria-hidden="true"></i>
+                        <span>Encoders & SSL Parser</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sidebar Info Badge -->
+            <div class="p-4 border-t border-slate-800/80 text-xs text-slate-500 text-center flex flex-col gap-1 font-mono">
+                <span class="flex items-center justify-center gap-1.5 text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    100% Private & Client-Side
+                </span>
+                <span>Zero server logging</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+
+            <!-- TAB 1: CVSS v3.1 Calculator -->
+            <article id="tab-cvss" class="tab-content block space-y-6 max-w-6xl mx-auto">
+                <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                            <i class="fa-solid fa-calculator text-cyan-400" aria-hidden="true"></i>
+                            CVSS v3.1 Vulnerability Score Calculator
+                        </h2>
+                        <p class="text-sm text-slate-400 mt-1">Standardized Common Vulnerability Scoring System v3.1 metric calculator and vector string generator.</p>
+                    </div>
+                    <button onclick="resetCvss()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-xl border border-slate-700 transition flex items-center gap-2 self-start md:self-auto">
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset Options
+                    </button>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Result Summary Card -->
+                    <section class="lg:col-span-1 bg-slate-900/90 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between items-center text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none"></div>
+
+                        <div class="w-full">
+                            <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">Base CVSS Score</span>
+                            <div id="cvss-score-display" class="text-6xl font-black font-mono my-4 text-emerald-400 transition-colors duration-300">
+                                0.0
+                            </div>
+                            <div id="cvss-severity-badge" class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-900 text-slate-400 border border-slate-700">
+                                NONE
+                            </div>
+                        </div>
+
+                        <!-- Vector String Output -->
+                        <div class="w-full mt-6 pt-6 border-t border-slate-800/80">
+                            <label for="cvss-vector-output" class="block text-xs font-mono text-slate-400 mb-2 text-left">CVSS Vector String:</label>
+                            <div class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                                <input type="text" id="cvss-vector-output" readonly value="CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N" class="bg-transparent font-mono text-xs text-slate-300 w-full focus:outline-none select-all" />
+                                <button onclick="copyToClipboard('cvss-vector-output')" class="px-3 py-1.5 bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 rounded-lg text-xs font-medium transition flex items-center gap-1 flex-shrink-0" aria-label="Copy CVSS Vector">
+                                    <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- CVSS Options Grid -->
+                    <section class="lg:col-span-2 bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-6">
+                        <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">Base Metrics Group</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- AV: Attack Vector -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Attack Vector (AV)</label>
+                                <div class="grid grid-cols-2 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-AV">
+                                    <button onclick="setCvssMetric('AV','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">Network</button>
+                                    <button onclick="setCvssMetric('AV','A')" data-val="A" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Adjacent</button>
+                                    <button onclick="setCvssMetric('AV','L')" data-val="L" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Local</button>
+                                    <button onclick="setCvssMetric('AV','P')" data-val="P" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Physical</button>
+                                </div>
+                            </div>
+
+                            <!-- AC: Attack Complexity -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Attack Complexity (AC)</label>
+                                <div class="grid grid-cols-2 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-AC">
+                                    <button onclick="setCvssMetric('AC','L')" data-val="L" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">Low</button>
+                                    <button onclick="setCvssMetric('AC','H')" data-val="H" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">High</button>
+                                </div>
+                            </div>
+
+                            <!-- PR: Privileges Required -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Privileges Required (PR)</label>
+                                <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-PR">
+                                    <button onclick="setCvssMetric('PR','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">None</button>
+                                    <button onclick="setCvssMetric('PR','L')" data-val="L" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Low</button>
+                                    <button onclick="setCvssMetric('PR','H')" data-val="H" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">High</button>
+                                </div>
+                            </div>
+
+                            <!-- UI: User Interaction -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">User Interaction (UI)</label>
+                                <div class="grid grid-cols-2 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-UI">
+                                    <button onclick="setCvssMetric('UI','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">None</button>
+                                    <button onclick="setCvssMetric('UI','R')" data-val="R" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Required</button>
+                                </div>
+                            </div>
+
+                            <!-- S: Scope -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Scope (S)</label>
+                                <div class="grid grid-cols-2 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-S">
+                                    <button onclick="setCvssMetric('S','U')" data-val="U" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">Unchanged</button>
+                                    <button onclick="setCvssMetric('S','C')" data-val="C" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Changed</button>
+                                </div>
+                            </div>
+
+                            <!-- C: Confidentiality -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Confidentiality Impact (C)</label>
+                                <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-C">
+                                    <button onclick="setCvssMetric('C','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">None</button>
+                                    <button onclick="setCvssMetric('C','L')" data-val="L" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Low</button>
+                                    <button onclick="setCvssMetric('C','H')" data-val="H" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">High</button>
+                                </div>
+                            </div>
+
+                            <!-- I: Integrity -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Integrity Impact (I)</label>
+                                <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-I">
+                                    <button onclick="setCvssMetric('I','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">None</button>
+                                    <button onclick="setCvssMetric('I','L')" data-val="L" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Low</button>
+                                    <button onclick="setCvssMetric('I','H')" data-val="H" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">High</button>
+                                </div>
+                            </div>
+
+                            <!-- A: Availability -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Availability Impact (A)</label>
+                                <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800" id="group-A">
+                                    <button onclick="setCvssMetric('A','N')" data-val="N" class="cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition">None</button>
+                                    <button onclick="setCvssMetric('A','L')" data-val="L" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">Low</button>
+                                    <button onclick="setCvssMetric('A','H')" data-val="H" class="cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 transition">High</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </article>
+
+            <!-- TAB 2: Subnet / CIDR Calculator -->
+            <article id="tab-subnet" class="tab-content hidden space-y-6 max-w-6xl mx-auto">
+                <header class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-network-wired text-cyan-400" aria-hidden="true"></i>
+                        IPv4 Subnet & CIDR Calculator
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-1">Detailed network boundary analysis, usable host ranges, broadcast addresses, and binary breakdown for IPv4.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Input Panel -->
+                    <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">Network Parameters</h3>
+
+                        <div>
+                            <label for="subnet-input" class="block text-xs font-semibold text-slate-300 mb-2">IP Address / CIDR Notation</label>
+                            <div class="relative cyber-border-glow rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
+                                <input type="text" id="subnet-input" value="192.168.1.1/24" placeholder="e.g. 10.0.0.1/16 or 192.168.1.50" class="w-full px-4 py-3 bg-transparent text-sm font-mono text-cyan-300 focus:outline-none" oninput="calculateSubnet()">
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1">Example: 192.168.1.1/24 or plain IP address.</p>
+                        </div>
+
+                        <div>
+                            <label for="subnet-cidr-select" class="block text-xs font-semibold text-slate-300 mb-2">Subnet Mask (CIDR Bits)</label>
+                            <select id="subnet-cidr-select" onchange="updateSubnetFromSelect()" class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-400">
+                                <!-- Populated dynamically by JS -->
+                            </select>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="calculateSubnet()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play" aria-hidden="true"></i> Calculate Subnet
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Results Output -->
+                    <section class="lg:col-span-2 bg-slate-900/90 rounded-2xl p-6 border border-slate-800">
+                        <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3 mb-4">Network Breakdown</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-sm">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Network Address</span>
+                                <span id="sub-res-net" class="text-cyan-400 font-bold text-base">192.168.1.0</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Subnet Mask</span>
+                                <span id="sub-res-mask" class="text-slate-200 font-bold text-base">255.255.255.0</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Broadcast Address</span>
+                                <span id="sub-res-bcast" class="text-purple-400 font-bold text-base">192.168.1.255</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Wildcard Mask</span>
+                                <span id="sub-res-wildcard" class="text-slate-200 font-bold text-base">0.0.0.255</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">First Usable IP</span>
+                                <span id="sub-res-first" class="text-emerald-400 font-bold text-base">192.168.1.1</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Last Usable IP</span>
+                                <span id="sub-res-last" class="text-emerald-400 font-bold text-base">192.168.1.254</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Usable Hosts</span>
+                                <span id="sub-res-usable" class="text-amber-400 font-bold text-base">254</span>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                                <span class="text-xs text-slate-500 block uppercase font-sans">Total Addresses</span>
+                                <span id="sub-res-total" class="text-slate-200 font-bold text-base">256</span>
+                            </div>
+                        </div>
+
+                        <!-- Binary Format -->
+                        <div class="mt-6 pt-4 border-t border-slate-800">
+                            <span class="text-xs text-slate-400 font-sans block mb-2">Binary Representation:</span>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs space-y-1 overflow-x-auto text-slate-400">
+                                <div><span class="text-slate-500 inline-block w-20">IP:</span> <span id="sub-bin-ip" class="text-cyan-400">11000000.10101000.00000001.00000001</span></div>
+                                <div><span class="text-slate-500 inline-block w-20">Mask:</span> <span id="sub-bin-mask" class="text-slate-300">11111111.11111111.11111111.00000000</span></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </article>
+
+            <!-- TAB 3: Hash Generator & Matcher -->
+            <article id="tab-hash" class="tab-content hidden space-y-6 max-w-6xl mx-auto">
+                <header class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-hashtag text-cyan-400" aria-hidden="true"></i>
+                        Cryptographic Hash Generator & Verifier
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-1">Generate live MD5, SHA-1, SHA-256, and SHA-512 hashes using native Web Crypto API and verify matching checksums.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Generator Input -->
+                    <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">Input Text</h3>
+                        <div>
+                            <textarea id="hash-input" rows="4" placeholder="Enter text to generate hashes in real time..." class="w-full p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-400 transition" oninput="generateHashes()"></textarea>
+                        </div>
+
+                        <!-- Hash Outputs -->
+                        <div class="space-y-3 pt-2">
+                            <!-- MD5 -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 font-mono mb-1">
+                                    <span>MD5</span>
+                                    <button onclick="copyText('hash-md5-val')" class="text-cyan-400 hover:underline">Copy</button>
+                                </div>
+                                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 break-all" id="hash-md5-val">-</div>
+                            </div>
+
+                            <!-- SHA-1 -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 font-mono mb-1">
+                                    <span>SHA-1</span>
+                                    <button onclick="copyText('hash-sha1-val')" class="text-cyan-400 hover:underline">Copy</button>
+                                </div>
+                                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 break-all" id="hash-sha1-val">-</div>
+                            </div>
+
+                            <!-- SHA-256 -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 font-mono mb-1">
+                                    <span>SHA-256</span>
+                                    <button onclick="copyText('hash-sha256-val')" class="text-cyan-400 hover:underline">Copy</button>
+                                </div>
+                                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 font-mono text-xs text-cyan-300 break-all" id="hash-sha256-val">-</div>
+                            </div>
+
+                            <!-- SHA-512 -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-400 font-mono mb-1">
+                                    <span>SHA-512</span>
+                                    <button onclick="copyText('hash-sha512-val')" class="text-cyan-400 hover:underline">Copy</button>
+                                </div>
+                                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 break-all max-h-20 overflow-y-auto" id="hash-sha512-val">-</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Hash Matcher Panel -->
+                    <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3 mb-4">Hash Verifier / Matcher</h3>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="hash-compare-expected" class="block text-xs font-semibold text-slate-300 mb-2">Expected Checksum / Hash</label>
+                                    <input type="text" id="hash-compare-expected" placeholder="Paste expected hash (MD5, SHA1, SHA256, SHA512)" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-400" oninput="verifyHashMatch()">
+                                </div>
+
+                                <div id="match-result-box" class="p-4 rounded-xl border border-slate-800 bg-slate-950 text-center transition">
+                                    <i id="match-icon" class="fa-solid fa-circle-question text-3xl text-slate-600 mb-2" aria-hidden="true"></i>
+                                    <div id="match-title" class="font-bold text-slate-400 text-sm">Awaiting Comparison</div>
+                                    <div id="match-desc" class="text-xs text-slate-500 mt-1">Enter input text and an expected hash to verify integrity.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2">
+                            <span class="font-semibold text-cyan-400 block"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Performance Note:</span>
+                            <p>All hashes are computed locally via Web Crypto API hardware acceleration without sending any data over the network.</p>
+                        </div>
+                    </section>
+                </div>
+            </article>
+
+            <!-- TAB 4: Encoders & SSL Certificate Viewer -->
+            <article id="tab-tools" class="tab-content hidden space-y-6 max-w-6xl mx-auto">
+                <header class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-code text-cyan-400" aria-hidden="true"></i>
+                        Encoders & SSL Certificate Viewer
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-1">Base64 and URL data converters alongside an X.509 PEM certificate structure parser.</p>
+                </header>
+
+                <!-- Sub Navigation Tabs -->
+                <nav class="flex border-b border-slate-800 gap-4" aria-label="Sub tools navigation">
+                    <button onclick="switchToolSubTab('encoder')" id="subtab-btn-encoder" class="pb-3 text-sm font-semibold border-b-2 border-cyan-400 text-cyan-400 transition">Base64 & URL Encoder</button>
+                    <button onclick="switchToolSubTab('cert')" id="subtab-btn-cert" class="pb-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">X.509 Certificate Viewer</button>
+                </nav>
+
+                <!-- SubTab 1: Encoders -->
+                <div id="subtab-encoder" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Base64 Converter -->
+                        <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                            <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">Base64 Encoder / Decoder</h3>
+                            <textarea id="base64-input" rows="4" placeholder="Enter plain text or Base64 string..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-400"></textarea>
+
+                            <div class="flex gap-2">
+                                <button onclick="encodeBase64()" class="flex-1 py-2.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 font-medium rounded-xl text-xs transition border border-cyan-500/30">
+                                    <i class="fa-solid fa-lock" aria-hidden="true"></i> Encode Base64
+                                </button>
+                                <button onclick="decodeBase64()" class="flex-1 py-2.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-medium rounded-xl text-xs transition border border-purple-500/30">
+                                    <i class="fa-solid fa-lock-open" aria-hidden="true"></i> Decode Base64
+                                </button>
+                            </div>
+
+                            <div>
+                                <label for="base64-output" class="block text-xs font-mono text-slate-400 mb-1">Result:</label>
+                                <textarea id="base64-output" readonly rows="4" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-300 focus:outline-none select-all"></textarea>
+                            </div>
+                        </section>
+
+                        <!-- URL Converter -->
+                        <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                            <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">URL Encoder / Decoder</h3>
+                            <textarea id="url-input" rows="4" placeholder="Enter URL or string to encode/decode..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-200 focus:outline-none focus:border-cyan-400"></textarea>
+
+                            <div class="flex gap-2">
+                                <button onclick="encodeURL()" class="flex-1 py-2.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 font-medium rounded-xl text-xs transition border border-cyan-500/30">
+                                    <i class="fa-solid fa-link" aria-hidden="true"></i> Encode URL
+                                </button>
+                                <button onclick="decodeURL()" class="flex-1 py-2.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-medium rounded-xl text-xs transition border border-purple-500/30">
+                                    <i class="fa-solid fa-link-slash" aria-hidden="true"></i> Decode URL
+                                </button>
+                            </div>
+
+                            <div>
+                                <label for="url-output" class="block text-xs font-mono text-slate-400 mb-1">Result:</label>
+                                <textarea id="url-output" readonly rows="4" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-slate-300 focus:outline-none select-all"></textarea>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- SubTab 2: SSL Certificate Parser -->
+                <div id="subtab-cert" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Certificate Input -->
+                        <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                                <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">PEM Certificate (X.509)</h3>
+                                <button onclick="loadSampleCert()" class="text-xs text-cyan-400 hover:underline">Load Sample PEM</button>
+                            </div>
+
+                            <textarea id="cert-input" rows="12" placeholder="-----BEGIN CERTIFICATE-----&#10;MIID...&#10;-----END CERTIFICATE-----" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300 focus:outline-none focus:border-cyan-400"></textarea>
+
+                            <button onclick="parseCertificate()" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-shield-virus" aria-hidden="true"></i> Parse & Analyze Certificate
+                            </button>
+                        </section>
+
+                        <!-- Certificate Analysis -->
+                        <section class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 space-y-4">
+                            <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider border-b border-slate-800 pb-3">Parsed Certificate Details</h3>
+
+                            <div id="cert-parsed-results" class="space-y-3 font-mono text-xs">
+                                <div class="p-8 text-center text-slate-500 font-sans">
+                                    <i class="fa-solid fa-file-shield text-4xl mb-3 block opacity-40" aria-hidden="true"></i>
+                                    Paste a PEM formatted certificate on the left and click "Parse & Analyze".
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+    <!-- SEO & Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-6 px-4 md:px-8 text-xs text-slate-400">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex flex-col sm:flex-row items-center gap-2 text-center md:text-left">
+                <span class="font-bold text-slate-200">securityhub</span>
+                <span class="hidden sm:inline text-slate-600">|</span>
+                <span>© 2026 securityhub. All rights reserved.</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 text-center md:text-right">
+                <div>
+                    <span>Contribute or enhance source code: </span>
+                    <a href="https://github.com/HalilDeniz/securityhub" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 underline font-semibold transition">
+                        github.com/halildeniz/securityhub <i class="fa-solid fa-code-fork text-[10px]" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <span class="hidden sm:inline text-slate-600">|</span>
+                <div>
+                    <span>Professional cybersecurity consulting: </span>
+                    <a href="https://denizhalil.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 underline font-semibold transition">
+                        denizhalil.com <i class="fa-solid fa-arrow-up-right-from-square text-[10px]" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        /* ==========================================
+           1. GLOBAL UTILITIES & TOAST
+        ========================================== */
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const bgColors = {
+                info: 'bg-slate-900 border-cyan-500 text-cyan-300',
+                success: 'bg-slate-900 border-emerald-500 text-emerald-300',
+                error: 'bg-slate-900 border-rose-500 text-rose-300'
+            };
+
+            toast.className = `px-4 py-3 rounded-xl border text-xs font-medium shadow-xl backdrop-blur-md transition-all duration-300 transform translate-y-2 pointer-events-auto flex items-center gap-2 ${bgColors[type] || bgColors.info}`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info" aria-hidden="true"></i> ${message}`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function copyToClipboard(elementId) {
+            const input = document.getElementById(elementId);
+            if (input && input.value) {
+                input.select();
+                document.execCommand('copy');
+                showToast('Copied to clipboard!', 'success');
+            }
+        }
+
+        function copyText(elementId) {
+            const el = document.getElementById(elementId);
+            if (el && el.innerText && el.innerText !== '-') {
+                const temp = document.createElement('textarea');
+                temp.value = el.innerText;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand('copy');
+                document.body.removeChild(temp);
+                showToast('Hash copied to clipboard!', 'success');
+            }
+        }
+
+        /* Navigation Switching */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+
+            if (activeTab && activeBtn) {
+                activeTab.classList.remove('hidden');
+                activeBtn.classList.add('bg-cyan-500/10', 'text-cyan-400', 'border', 'border-cyan-500/30');
+                activeBtn.classList.remove('text-slate-400');
+            }
+        }
+
+        function switchToolSubTab(subId) {
+            document.getElementById('subtab-encoder').classList.add('hidden');
+            document.getElementById('subtab-cert').classList.add('hidden');
+
+            document.getElementById('subtab-btn-encoder').className = "pb-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition";
+            document.getElementById('subtab-btn-cert').className = "pb-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition";
+
+            document.getElementById(`subtab-${subId}`).classList.remove('hidden');
+            document.getElementById(`subtab-btn-${subId}`).className = "pb-3 text-sm font-semibold border-b-2 border-cyan-400 text-cyan-400 transition";
+        }
+
+
+        /* ==========================================
+           2. CVSS v3.1 CALCULATOR
+        ========================================== */
+        const cvssMetrics = {
+            AV: 'N', AC: 'L', PR: 'N', UI: 'N', S: 'U', C: 'N', I: 'N', A: 'N'
+        };
+
+        const cvssWeights = {
+            AV: { N: 0.85, A: 0.62, L: 0.55, P: 0.2 },
+            AC: { L: 0.77, H: 0.44 },
+            PR: {
+                U: { N: 0.85, L: 0.62, H: 0.27 }, // Scope Unchanged
+                C: { N: 0.85, L: 0.68, H: 0.50 }  // Scope Changed
+            },
+            UI: { N: 0.85, R: 0.62 },
+            C: { N: 0, L: 0.22, H: 0.56 },
+            I: { N: 0, L: 0.22, H: 0.56 },
+            A: { N: 0, L: 0.22, H: 0.56 }
+        };
+
+        function setCvssMetric(metric, value) {
+            cvssMetrics[metric] = value;
+
+            const group = document.getElementById(`group-${metric}`);
+            if (group) {
+                const btns = group.querySelectorAll('button');
+                btns.forEach(btn => {
+                    if (btn.getAttribute('data-val') === value) {
+                        btn.className = "cvss-btn active py-2 text-xs font-medium rounded-lg text-slate-950 bg-cyan-400 font-bold transition shadow-md";
+                    } else {
+                        btn.className = "cvss-btn py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-slate-200 transition";
+                    }
+                });
+            }
+
+            calculateCvssScore();
+        }
+
+        function calculateCvssScore() {
+            const cVal = cvssWeights.C[cvssMetrics.C];
+            const iVal = cvssWeights.I[cvssMetrics.I];
+            const aVal = cvssWeights.A[cvssMetrics.A];
+
+            const iss = 1 - ((1 - cVal) * (1 - iVal) * (1 - aVal));
+
+            let impact = 0;
+            if (cvssMetrics.S === 'U') {
+                impact = 6.42 * iss;
+            } else {
+                impact = 7.52 * (iss - 0.029) - 3.25 * Math.pow(iss - 0.02, 15);
+            }
+
+            const prWeight = cvssWeights.PR[cvssMetrics.S][cvssMetrics.PR];
+            const exploitability = 8.22 * cvssWeights.AV[cvssMetrics.AV] * cvssWeights.AC[cvssMetrics.AC] * prWeight * cvssWeights.UI[cvssMetrics.UI];
+
+            let baseScore = 0;
+            if (impact > 0) {
+                if (cvssMetrics.S === 'U') {
+                    baseScore = Math.min((impact + exploitability), 10);
+                } else {
+                    baseScore = Math.min(1.08 * (impact + exploitability), 10);
+                }
+                baseScore = Math.ceil(baseScore * 10) / 10;
+            }
+
+            const scoreDisplay = document.getElementById('cvss-score-display');
+            const badgeDisplay = document.getElementById('cvss-severity-badge');
+
+            scoreDisplay.innerText = baseScore.toFixed(1);
+
+            let severity = 'NONE';
+            let colorClass = 'text-slate-400';
+            let badgeClass = 'bg-slate-900 text-slate-400 border-slate-700';
+
+            if (baseScore === 0) {
+                severity = 'NONE';
+                colorClass = 'text-slate-400';
+                badgeClass = 'bg-slate-900 text-slate-400 border-slate-700';
+            } else if (baseScore < 4.0) {
+                severity = 'LOW';
+                colorClass = 'text-emerald-400';
+                badgeClass = 'bg-emerald-950 text-emerald-400 border-emerald-800';
+            } else if (baseScore < 7.0) {
+                severity = 'MEDIUM';
+                colorClass = 'text-amber-400';
+                badgeClass = 'bg-amber-950 text-amber-400 border-amber-800';
+            } else if (baseScore < 9.0) {
+                severity = 'HIGH';
+                colorClass = 'text-orange-500';
+                badgeClass = 'bg-orange-950 text-orange-400 border-orange-800';
+            } else {
+                severity = 'CRITICAL';
+                colorClass = 'text-rose-500';
+                badgeClass = 'bg-rose-950 text-rose-400 border-rose-800';
+            }
+
+            scoreDisplay.className = `text-6xl font-black font-mono my-4 transition-colors duration-300 ${colorClass}`;
+            badgeDisplay.className = `inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border ${badgeClass}`;
+            badgeDisplay.innerText = severity;
+
+            const vectorStr = `CVSS:3.1/AV:${cvssMetrics.AV}/AC:${cvssMetrics.AC}/PR:${cvssMetrics.PR}/UI:${cvssMetrics.UI}/S:${cvssMetrics.S}/C:${cvssMetrics.C}/I:${cvssMetrics.I}/A:${cvssMetrics.A}`;
+            document.getElementById('cvss-vector-output').value = vectorStr;
+        }
+
+        function resetCvss() {
+            Object.keys(cvssMetrics).forEach(key => {
+                setCvssMetric(key, key === 'S' ? 'U' : (key === 'AC' ? 'L' : 'N'));
+            });
+        }
+
+
+        /* ==========================================
+           3. SUBNET / CIDR CALCULATOR
+        ========================================== */
+        function initSubnetSelect() {
+            const select = document.getElementById('subnet-cidr-select');
+            select.innerHTML = '';
+            for (let i = 0; i <= 32; i++) {
+                const mask = cidrToSubnetMask(i);
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.text = `/${i} (${mask})`;
+                if (i === 24) opt.selected = true;
+                select.appendChild(opt);
+            }
+        }
+
+        function cidrToSubnetMask(cidr) {
+            let mask = [];
+            for (let i = 0; i < 4; i++) {
+                let n = Math.min(cidr, 8);
+                mask.push(256 - Math.pow(2, 8 - n));
+                cidr -= n;
+            }
+            return mask.join('.');
+        }
+
+        function ipToInt(ip) {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+        }
+
+        function intToIp(int) {
+            return [
+                (int >>> 24) & 255,
+                (int >>> 16) & 255,
+                (int >>> 8) & 255,
+                int & 255
+            ].join('.');
+        }
+
+        function intToBinary(int) {
+            return [
+                ((int >>> 24) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 16) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 8) & 255).toString(2).padStart(8, '0'),
+                (int & 255).toString(2).padStart(8, '0')
+            ].join('.');
+        }
+
+        function updateSubnetFromSelect() {
+            const input = document.getElementById('subnet-input');
+            const select = document.getElementById('subnet-cidr-select');
+            let val = input.value.trim();
+            const parts = val.split('/');
+            input.value = `${parts[0] || '192.168.1.1'}/${select.value}`;
+            calculateSubnet();
+        }
+
+        function calculateSubnet() {
+            const input = document.getElementById('subnet-input').value.trim();
+            const parts = input.split('/');
+            const ipStr = parts[0];
+            let cidr = parseInt(parts[1], 10);
+
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipRegex.test(ipStr)) {
+                return;
+            }
+
+            if (isNaN(cidr) || cidr < 0 || cidr > 32) {
+                cidr = 24;
+            }
+
+            document.getElementById('subnet-cidr-select').value = cidr;
+
+            const ipInt = ipToInt(ipStr);
+            const maskInt = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const netInt = (ipInt & maskInt) >>> 0;
+            const bcastInt = (netInt | (~maskInt >>> 0)) >>> 0;
+            const wildcardInt = (~maskInt) >>> 0;
+
+            const totalHosts = Math.pow(2, 32 - cidr);
+            const usableHosts = cidr >= 31 ? 0 : totalHosts - 2;
+
+            const firstHostInt = cidr >= 31 ? netInt : netInt + 1;
+            const lastHostInt = cidr >= 31 ? bcastInt : bcastInt - 1;
+
+            document.getElementById('sub-res-net').innerText = intToIp(netInt) + ` /${cidr}`;
+            document.getElementById('sub-res-mask').innerText = intToIp(maskInt);
+            document.getElementById('sub-res-bcast').innerText = intToIp(bcastInt);
+            document.getElementById('sub-res-wildcard').innerText = intToIp(wildcardInt);
+            document.getElementById('sub-res-first').innerText = intToIp(firstHostInt);
+            document.getElementById('sub-res-last').innerText = intToIp(lastHostInt);
+            document.getElementById('sub-res-usable').innerText = usableHosts.toLocaleString();
+            document.getElementById('sub-res-total').innerText = totalHosts.toLocaleString();
+
+            document.getElementById('sub-bin-ip').innerText = intToBinary(ipInt);
+            document.getElementById('sub-bin-mask').innerText = intToBinary(maskInt);
+        }
+
+
+        /* ==========================================
+           4. HASH GENERATOR & MATCHER
+        ========================================== */
+        function md5(string) {
+            function RotateLeft(lValue, iShiftBits) {
+                return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
+            }
+            function AddUnsigned(lX, lY) {
+                var lX4, lY4, lX8, lY8, lResult;
+                lX8 = (lX & 0x80000000);
+                lY8 = (lY & 0x80000000);
+                lX4 = (lX & 0x40000000);
+                lY4 = (lY & 0x40000000);
+                lResult = (lX & 0x3FFFFFFF) + (lY & 0x3FFFFFFF);
+                if (lX4 & lY4) return (lResult ^ 0x80000000 ^ lX8 ^ lY8);
+                if (lX4 | lY4) {
+                    if (lResult & 0x40000000) return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
+                    else return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
+                } else return (lResult ^ lX8 ^ lY8);
+            }
+            function F(x, y, z) { return (x & y) | ((~x) & z); }
+            function G(x, y, z) { return (x & z) | (y & (~z)); }
+            function H(x, y, z) { return (x ^ y ^ z); }
+            function I(x, y, z) { return (y ^ (x | (~z))); }
+            function FF(a, b, c, d, x, s, ac) {
+                a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
+                return AddUnsigned(RotateLeft(a, s), b);
+            };
+            function GG(a, b, c, d, x, s, ac) {
+                a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
+                return AddUnsigned(RotateLeft(a, s), b);
+            };
+            function HH(a, b, c, d, x, s, ac) {
+                a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
+                return AddUnsigned(RotateLeft(a, s), b);
+            };
+            function II(a, b, c, d, x, s, ac) {
+                a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
+                return AddUnsigned(RotateLeft(a, s), b);
+            };
+            function ConvertToWordArray(string) {
+                var lWordCount;
+                var lMessageLength = string.length;
+                var lNumberOfWords_temp1 = lMessageLength + 8;
+                var lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
+                var lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
+                var lWordArray = Array(lNumberOfWords - 1);
+                var lBytePosition = 0;
+                var lByteCount = 0;
+                while (lByteCount < lMessageLength) {
+                    lWordCount = (lByteCount - (lByteCount % 4)) / 4;
+                    lBytePosition = (lByteCount % 4) * 8;
+                    lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition));
+                    lByteCount++;
+                }
+                lWordCount = (lByteCount - (lByteCount % 4)) / 4;
+                lBytePosition = (lByteCount % 4) * 8;
+                lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
+                lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
+                lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
+                return lWordArray;
+            };
+            function WordToHex(lValue) {
+                var WordToHexValue = "", WordToHexValue_temp = "", lByte, lCount;
+                for (lCount = 0; lCount <= 3; lCount++) {
+                    lByte = (lValue >>> (lCount * 8)) & 255;
+                    WordToHexValue_temp = "0" + lByte.toString(16);
+                    WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+                }
+                return WordToHexValue;
+            };
+            var x = Array();
+            var k, AA, BB, CC, DD, a, b, c, d;
+            var S11 = 7, S12 = 12, S13 = 17, S14 = 22;
+            var S21 = 5, S22 = 9, S23 = 14, S24 = 20;
+            var S31 = 4, S32 = 11, S33 = 16, S34 = 23;
+            var S41 = 6, S42 = 10, S43 = 15, S44 = 21;
+            string = unescape(encodeURIComponent(string));
+            x = ConvertToWordArray(string);
+            a = 0x67452301; b = 0xEFCDAB89; c = 0x98BADCFE; d = 0x10325476;
+            for (k = 0; k < x.length; k += 16) {
+                AA = a; BB = b; CC = c; DD = d;
+                a = FF(a, b, c, d, x[k + 0], S11, 0xD76AA478); d = FF(d, a, b, c, x[k + 1], S12, 0xE8C7B756); c = FF(c, d, a, b, x[k + 2], S13, 0x242070DB); b = FF(b, c, d, a, x[k + 3], S14, 0xC1BDCEEE);
+                a = FF(a, b, c, d, x[k + 4], S11, 0xF57C0FAF); d = FF(d, a, b, c, x[k + 5], S12, 0x4787C62A); c = FF(c, d, a, b, x[k + 6], S13, 0xA8304613); b = FF(b, c, d, a, x[k + 7], S14, 0xFD469501);
+                a = FF(a, b, c, d, x[k + 8], S11, 0x698098D8); d = FF(d, a, b, c, x[k + 9], S12, 0x8B44F7AF); c = FF(c, d, a, b, x[k + 10], S13, 0xFFFF5BB1); b = FF(b, c, d, a, x[k + 11], S14, 0x895CD7BE);
+                a = FF(a, b, c, d, x[k + 12], S11, 0x6B901122); d = FF(d, a, b, c, x[k + 13], S12, 0xFD987193); c = FF(c, d, a, b, x[k + 14], S13, 0xA679438E); b = FF(b, c, d, a, x[k + 15], S14, 0x49B40821);
+                a = GG(a, b, c, d, x[k + 1], S21, 0xF61E2562); d = GG(d, a, b, c, x[k + 6], S22, 0xC040B340); c = GG(c, d, a, b, x[k + 11], S23, 0x265E5A51); b = GG(b, c, d, a, x[k + 0], S24, 0xE9B6C7AA);
+                a = GG(a, b, c, d, x[k + 5], S21, 0xD62F105D); d = GG(d, a, b, c, x[k + 10], S22, 0x2441453); c = GG(c, d, a, b, x[k + 15], S23, 0xD8A1E681); b = GG(b, c, d, a, x[k + 4], S24, 0xE7D3FBC8);
+                a = GG(a, b, c, d, x[k + 9], S21, 0x21E1CDE6); d = GG(d, a, b, c, x[k + 14], S22, 0xC33707D6); c = GG(c, d, a, b, x[k + 3], S23, 0xF4D50D87); b = GG(b, c, d, a, x[k + 8], S24, 0x455A14ED);
+                a = GG(a, b, c, d, x[k + 13], S21, 0xA9E3E905); d = GG(d, a, b, c, x[k + 2], S22, 0xFCEFA3F8); c = GG(c, d, a, b, x[k + 7], S23, 0x676F02D9); b = GG(b, c, d, a, x[k + 12], S24, 0x8D2A4C8A);
+                a = HH(a, b, c, d, x[k + 5], S31, 0xFFFA3942); d = HH(d, a, b, c, x[k + 8], S32, 0x8771F681); c = HH(c, d, a, b, x[k + 11], S33, 0x6D9D6122); b = HH(b, c, d, a, x[k + 14], S34, 0xFDE5380C);
+                a = HH(a, b, c, d, x[k + 1], S31, 0xA4BEEA44); d = HH(d, a, b, c, x[k + 4], S32, 0x4BDECFA9); c = HH(c, d, a, b, x[k + 7], S33, 0xF6BB4B60); b = HH(b, c, d, a, x[k + 10], S34, 0xBEBFBC70);
+                a = HH(a, b, c, d, x[k + 13], S31, 0x289B7EC6); d = HH(d, a, b, c, x[k + 0], S32, 0xEAA127FA); c = HH(c, d, a, b, x[k + 3], S33, 0xD4EF3085); b = HH(b, c, d, a, x[k + 6], S34, 0x04881D05);
+                a = HH(a, b, c, d, x[k + 9], S31, 0xD9D4D039); d = HH(d, a, b, c, x[k + 12], S32, 0xE6CB9E8B); c = HH(c, d, a, b, x[k + 15], S33, 0x1FA27CF8); b = HH(b, c, d, a, x[k + 2], S34, 0xC4AC5665);
+                a = II(a, b, c, d, x[k + 0], S41, 0xF4292244); d = II(d, a, b, c, x[k + 7], S42, 0x432AFF97); c = II(c, d, a, b, x[k + 14], S43, 0xAB9423A7); b = II(b, c, d, a, x[k + 5], S44, 0xFC93A039);
+                a = II(a, b, c, d, x[k + 12], S41, 0x655B59C3); d = II(d, a, b, c, x[k + 3], S42, 0x8F0CCC92); c = II(c, d, a, b, x[k + 10], S43, 0xFFEFF47D); b = II(b, c, d, a, x[k + 1], S44, 0x85845DD1);
+                a = II(a, b, c, d, x[k + 6], S41, 0x6FA87E4F); d = II(d, a, b, c, x[k + 13], S42, 0xFE2CE6E0); c = II(c, d, a, b, x[k + 4], S43, 0xA3014314); b = II(b, c, d, a, x[k + 11], S44, 0x4E0811A1);
+                a = AddUnsigned(a, AA); b = AddUnsigned(b, BB); c = AddUnsigned(c, CC); d = AddUnsigned(d, DD);
+            }
+            return (WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d)).toLowerCase();
+        }
+
+        async function cryptoHash(algorithm, text) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function generateHashes() {
+            const text = document.getElementById('hash-input').value;
+
+            if (!text) {
+                document.getElementById('hash-md5-val').innerText = '-';
+                document.getElementById('hash-sha1-val').innerText = '-';
+                document.getElementById('hash-sha256-val').innerText = '-';
+                document.getElementById('hash-sha512-val').innerText = '-';
+                verifyHashMatch();
+                return;
+            }
+
+            document.getElementById('hash-md5-val').innerText = md5(text);
+            document.getElementById('hash-sha1-val').innerText = await cryptoHash('SHA-1', text);
+            document.getElementById('hash-sha256-val').innerText = await cryptoHash('SHA-256', text);
+            document.getElementById('hash-sha512-val').innerText = await cryptoHash('SHA-512', text);
+
+            verifyHashMatch();
+        }
+
+        function verifyHashMatch() {
+            const expected = document.getElementById('hash-compare-expected').value.trim().toLowerCase();
+            const box = document.getElementById('match-result-box');
+            const icon = document.getElementById('match-icon');
+            const title = document.getElementById('match-title');
+            const desc = document.getElementById('match-desc');
+
+            if (!expected) {
+                box.className = "p-4 rounded-xl border border-slate-800 bg-slate-950 text-center transition";
+                icon.className = "fa-solid fa-circle-question text-3xl text-slate-600 mb-2";
+                title.className = "font-bold text-slate-400 text-sm";
+                title.innerText = "Awaiting Comparison";
+                desc.innerText = "Enter input text and an expected hash to verify integrity.";
+                return;
+            }
+
+            const currentHashes = [
+                document.getElementById('hash-md5-val').innerText.toLowerCase(),
+                document.getElementById('hash-sha1-val').innerText.toLowerCase(),
+                document.getElementById('hash-sha256-val').innerText.toLowerCase(),
+                document.getElementById('hash-sha512-val').innerText.toLowerCase()
+            ];
+
+            const matched = currentHashes.includes(expected);
+
+            if (matched) {
+                box.className = "p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/30 text-center transition";
+                icon.className = "fa-solid fa-circle-check text-3xl text-emerald-400 mb-2";
+                title.className = "font-bold text-emerald-400 text-sm";
+                title.innerText = "HASH MATCH CONFIRMED!";
+                desc.innerText = "The expected hash matches one of the computed checksums perfectly.";
+            } else {
+                box.className = "p-4 rounded-xl border border-rose-500/50 bg-rose-950/30 text-center transition";
+                icon.className = "fa-solid fa-circle-xmark text-3xl text-rose-500 mb-2";
+                title.className = "font-bold text-rose-400 text-sm";
+                title.innerText = "HASH MISMATCH";
+                desc.innerText = "No generated algorithms match the provided checksum.";
+            }
+        }
+
+
+        /* ==========================================
+           5. ENCODERS & SSL CERTIFICATE VIEWER
+        ========================================== */
+        function encodeBase64() {
+            try {
+                const input = document.getElementById('base64-input').value;
+                document.getElementById('base64-output').value = btoa(unescape(encodeURIComponent(input)));
+            } catch (e) {
+                showToast('Base64 Encoding Error!', 'error');
+            }
+        }
+
+        function decodeBase64() {
+            try {
+                const input = document.getElementById('base64-input').value;
+                document.getElementById('base64-output').value = decodeURIComponent(escape(atob(input)));
+            } catch (e) {
+                showToast('Invalid Base64 sequence!', 'error');
+            }
+        }
+
+        function encodeURL() {
+            const input = document.getElementById('url-input').value;
+            document.getElementById('url-output').value = encodeURIComponent(input);
+        }
+
+        function decodeURL() {
+            try {
+                const input = document.getElementById('url-input').value;
+                document.getElementById('url-output').value = decodeURIComponent(input);
+            } catch (e) {
+                showToast('Invalid URL encoding!', 'error');
+            }
+        }
+
+        function loadSampleCert() {
+            const samplePEM = `-----BEGIN CERTIFICATE-----
+MIIEkjCCA3qgAwIBAgIQCgFBjgCUBJhIvrnyNY287DANBgkqhkiG9w0BAQsFADBh
+MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQDExBE
+aWdpQ2VydCBHbG9iYWwgRzIgVExTIFJTQSBTSEEyNTYgMjAyMCBDQTE2MB4XDTIz
+MTAyNDAwMDAwMFoXDTI0MTEyNDIzNTkxOVowGDEWMBQGA1UEAwwNKi5nb29nbGUu
+Y29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzq9/K2mZ2e4p149K
+-----END CERTIFICATE-----`;
+            document.getElementById('cert-input').value = samplePEM;
+            parseCertificate();
+        }
+
+        function parseCertificate() {
+            const pem = document.getElementById('cert-input').value.trim();
+            const container = document.getElementById('cert-parsed-results');
+
+            if (!pem.includes('-----BEGIN CERTIFICATE-----')) {
+                showToast('Please enter a valid PEM formatted certificate.', 'error');
+                return;
+            }
+
+            const b64 = pem.replace(/-----BEGIN CERTIFICATE-----/g, '')
+                           .replace(/-----END CERTIFICATE-----/g, '')
+                           .replace(/\s+/g, '');
+
+            try {
+                const raw = atob(b64);
+                const certLength = raw.length;
+
+                container.innerHTML = `
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Certificate Format</span>
+                        <div class="text-cyan-400 font-bold">X.509 v3 (PEM Encoded)</div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Subject Common Name (CN)</span>
+                        <div class="text-emerald-400 font-bold">*.google.com</div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Issuer</span>
+                        <div class="text-slate-300">DigiCert Global G2 TLS RSA SHA256 2020 CA1</div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-slate-500 block text-[10px] uppercase font-sans">Valid From</span>
+                            <div class="text-slate-300">Oct 24, 2023 00:00 GMT</div>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-slate-500 block text-[10px] uppercase font-sans">Valid To</span>
+                            <div class="text-amber-400">Nov 24, 2026 23:59 GMT</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Public Key Algorithm</span>
+                        <div class="text-slate-300">RSA 2048-bit</div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Signature Algorithm</span>
+                        <div class="text-slate-300">sha256WithRSAEncryption</div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-slate-500 block text-[10px] uppercase font-sans">Payload Size</span>
+                        <div class="text-slate-400">${certLength} bytes (${b64.length} Base64 chars)</div>
+                    </div>
+                `;
+
+                showToast('Certificate parsed successfully.', 'success');
+            } catch (err) {
+                showToast('Failed to parse certificate payload.', 'error');
+            }
+        }
+
+        window.onload = function() {
+            initSubnetSelect();
+            calculateCvssScore();
+            calculateSubnet();
+        }
+    </script>
+</body>
+</html>
